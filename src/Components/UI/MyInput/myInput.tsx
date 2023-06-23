@@ -1,6 +1,9 @@
 import { FC, PropsWithChildren } from "react";
 
-interface IMyInputProps {}
+interface IMyInputProps {
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
 const MyInput: FC<PropsWithChildren<IMyInputProps>> = ({
   children,
