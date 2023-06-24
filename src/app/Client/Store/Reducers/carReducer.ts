@@ -1,15 +1,12 @@
-"use client";
-import { IPost } from "@/Types/types";
-import { FC, useEffect, useState } from "react";
-import MyButton from "../UI/MyButton/myButton";
-import MyInput from "../UI/MyInput/myInput";
-import { posts } from "./../../Store/store";
-import React from "react";
-interface IAddFormProps {}
+import { ICarState, ICarAction } from "../../Types/types";
+import {
+  FETCH_CARS,
+  FETCH_CARS_ERROR,
+  FETCH_CARS_SUCCESS,
+} from "./../../Enums/enums";
 
-const AddForm: FC<IAddFormProps> = (props) => {
-  const [value, setValue] = useState("");
-  const [posts, setPosts] = useState([
+const initialState: ICarState = {
+  cars: [
     {
       userId: 1,
       id: 1,
@@ -31,37 +28,22 @@ const AddForm: FC<IAddFormProps> = (props) => {
         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum dolor eius, eum perferendis perspiciatis labore, fugit voluptatem ducimus earum suscipit aspernatur nisi at voluptates nesciunt esse culpa laborum officiis qui?",
       body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit, explicabo nihil? Neque asperiores, facere maiores suscipit corrupti ab eligendi iusto, unde, veritatis id iure alias. Doloremque quasi commodi minus eius.",
     },
-  ]);
-  useEffect(() => {
-    console.log(posts);
-  }, [posts]);
-
-  const addPost = (title: string, body: string) => {
-    const newPost = {
-      userId: Math.random(),
-      id: Math.random(),
-      title: title,
-      body: body,
-    };
-    setPosts([...posts, newPost]);
-    setValue("");
-  };
-
-  const deletePost = () => (id: number) => {
-    return posts.filter((post: IPost) => post.id !== id);
-  };
-  const changeEvent = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
-
-  return (
-    <div>
-      <MyInput value={value} onChange={changeEvent} />
-      <MyInput value={value} onChange={changeEvent} />
-      <MyButton onClick={addPost}>Save</MyButton>
-      <MyButton onClick={deletePost}>Delete</MyButton>
-    </div>
-  );
+  ],
+  loading: false,
+  error: null,
 };
-
-export default AddForm;
+export const carReducer = (
+  state = initialState,
+  action: ICarAction
+): ICarState => {
+  switch (action.type) {
+    case FETCH_CARS:
+      return { loading: true, error: null, cars: [] };
+    case FETCH_CARS_SUCCESS:
+      return { loading: false, error: null, cars: action.payload };
+    case FETCH_CARS_ERROR:
+      return { loading: false, error: action.payload, cars: [] };
+    default:
+      return state;
+  }
+};

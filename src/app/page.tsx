@@ -1,12 +1,14 @@
+import CarForm from "@/app/Client/Components/CarForm/carForm";
 import styles from "./page.module.scss";
-import MyInput from "./../Components/UI/MyInput/myInput";
-import AddForm from "@/Components/AddForm/addForm";
+import CarList from "./Client/Components/CarList/carList";
+import { Provider } from "react-redux";
+import { store } from "./Client/Store/store";
 
 export default function Home() {
   return (
     <main className={styles.main}>
       <section>
-        <AddForm />
+        <CarList />
       </section>
     </main>
   );
