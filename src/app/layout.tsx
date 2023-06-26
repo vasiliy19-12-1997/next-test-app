@@ -1,8 +1,6 @@
-import { Provider } from "react-redux";
-import "./globals.scss";
 import { Inter } from "next/font/google";
-import { store } from "./Client/Store/store";
 import { Providers } from "./Client/Store/Provider/provider";
+import "./globals.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,13 +15,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Providers>
-      <html lang="en">
-        <body className={inter.className}>
+    <html lang="en">
+      <body className={inter.className}>
+        <Providers>
           {children}
           <footer></footer>
-        </body>
-      </html>
-    </Providers>
+        </Providers>
+      </body>
+    </html>
   );
 }

@@ -1,25 +1,27 @@
 "use client";
-import { FC, useState } from "react";
-import { ICar } from "../../Types/types";
-import { useSelector } from "react-redux";
+import { FC, useEffect } from "react";
+import { useActions } from "../../Hooks/useActions";
 import { useTypeSelector } from "./../../Hooks/useTypeSelector";
 
-interface ICarListProps {}
-const CarList: FC<ICarListProps> = () => {
+const CarList: FC = () => {
   const { cars, error, loading } = useTypeSelector((state) => state.cars);
-  console.log(cars);
+  const { fetchCars } = useActions();
 
+  useEffect(() => {
+    fetchCars();
+  }, []);
+
+  if (loading) {
+    return <h1>Идет загрузка</h1>;
+  }
+  if (error) {
+    return <h1>{error}</h1>;
+  }
   return (
     <>
-      <div>
-        {cars.map((car: ICar) => (
-          <ul key={car.id}>
-            <li>{car.id}</li>
-            <li>{car.title}</li>
-            <li>{car.userId}</li>
-          </ul>
-        ))}
-      </div>
+      {cars.map((car) => (
+        <div key={car.id}>{car.options[0].option_name}</div>
+      ))}
     </>
   );
 };
